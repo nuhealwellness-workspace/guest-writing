@@ -7,25 +7,36 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
-      theme: { extend: { colors: { brand: { beige: '#E4D198', oatmeal: '#DED4C1', milktea: '#C4B1A0', sage: '#B2BAA5' } } } }
+      theme: { 
+        extend: { 
+          colors: { 
+            brand: { 
+              green: '#556B52',   /* 提取自 Logo 的深綠色 */
+              gold: '#D2C39B',    /* 提取自 Logo 的大地金色 */
+              light: '#FBFAF7',   /* 配合品牌的淺米底色 */
+              border: '#E8E4DB'   /* 柔和的邊框色 */
+            } 
+          } 
+        } 
+      }
     }
   </script>
   <style>
-    body { background-color: #F3F4F6; font-family: 'Noto Sans TC', sans-serif; color: #4A4A4A; }
-    .mobile-container { max-width: 448px; margin: 0 auto; background: white; min-height: 100vh; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-    .form-input { width: 100%; padding: 0.875rem 1rem; border: 1.5px solid #DED4C1; border-radius: 0.75rem; outline: none; transition: all 0.2s; font-size: 16px; background-color: #FAFAF8; -webkit-appearance: none; }
-    .form-input:focus { border-color: #B2BAA5; background-color: #fff; box-shadow: 0 0 0 3px rgba(178, 186, 165, 0.2); }
+    body { background-color: #556B52; font-family: 'Noto Sans TC', sans-serif; color: #333333; }
+    .mobile-container { max-width: 448px; margin: 0 auto; background: #FBFAF7; min-height: 100vh; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    .form-input { width: 100%; padding: 0.875rem 1rem; border: 1.5px solid #E8E4DB; border-radius: 0.75rem; outline: none; transition: all 0.2s; font-size: 16px; background-color: #FFFFFF; -webkit-appearance: none; }
+    .form-input:focus { border-color: #556B52; box-shadow: 0 0 0 3px rgba(85, 107, 82, 0.2); }
     textarea.form-input { resize: vertical; min-height: 80px; } 
-    .form-label { display: block; margin-bottom: 0.4rem; font-weight: 600; color: #6B7280; font-size: 0.95rem; }
+    .form-label { display: block; margin-bottom: 0.4rem; font-weight: 600; color: #4A5648; font-size: 0.95rem; }
     
-    .slot-btn { width: 100%; padding: 0.875rem 0.5rem; border: 1.5px solid #DED4C1; border-radius: 0.75rem; text-align: center; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; color: #4A4A4A; background-color: white; }
-    .slot-btn.active { border-color: #B2BAA5; background-color: #B2BAA5; color: white; box-shadow: 0 4px 6px rgba(178, 186, 165, 0.3); }
+    .slot-btn { width: 100%; padding: 0.875rem 0.5rem; border: 1.5px solid #E8E4DB; border-radius: 0.75rem; text-align: center; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; color: #4A5648; background-color: white; }
+    .slot-btn.active { border-color: #556B52; background-color: #556B52; color: #D2C39B; box-shadow: 0 4px 6px rgba(85, 107, 82, 0.3); }
     .slot-btn.booked { background-color: #F3F4F6; border-color: #E5E7EB; color: #9CA3AF; cursor: not-allowed; text-decoration: line-through; opacity: 0.7; pointer-events: none; }
     .hidden-section { display: none; }
     
     input[type=file] { display: none; }
-    .upload-btn { display: inline-block; padding: 0.5rem 1.25rem; background-color: #B2BAA5; color: white; font-weight: 600; border-radius: 9999px; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; }
-    .upload-btn:hover { background-color: #9da68f; }
+    .upload-btn { display: inline-block; padding: 0.5rem 1.25rem; background-color: #D2C39B; color: #2C382A; font-weight: 600; border-radius: 9999px; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; }
+    .upload-btn:hover { background-color: #C1B28A; }
     
     .preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; margin-top: 15px; }
     .preview-item { position: relative; width: 100%; padding-bottom: 100%; border-radius: 0.5rem; overflow: hidden; border: 1px solid #E5E7EB; background-color: #F9FAFB; }
@@ -38,9 +49,9 @@
 
   <div class="mobile-container p-6 sm:p-8">
     <div class="text-center mb-8 pt-4">
-      <h1 class="text-3xl font-bold text-brand-milktea mb-2 tracking-wider">NuHeal</h1>
-      <p class="text-brand-sage text-sm font-bold bg-brand-sage bg-opacity-10 inline-block px-3 py-1 rounded-full">首次諮詢資料蒐集</p>
-      <p id="draftNotice" class="text-xs text-brand-milktea mt-2 hidden animate-pulse">📝 已為您還原上次填寫的草稿</p>
+      <h1 class="text-4xl font-bold text-brand-green mb-2 tracking-widest font-serif">NuHeal</h1>
+      <p class="text-brand-green text-sm font-bold bg-brand-gold bg-opacity-40 inline-block px-4 py-1.5 rounded-full">首次諮詢資料蒐集</p>
+      <p id="draftNotice" class="text-xs text-brand-green mt-3 hidden animate-pulse font-medium">📝 已為您還原上次填寫的草稿</p>
     </div>
 
     <form id="nuhealForm" onsubmit="submitForm(event)" oninput="saveFormData()" onchange="saveFormData()" class="space-y-6">
@@ -68,7 +79,7 @@
         <div class="flex justify-between items-end mb-1">
           <label class="form-label mb-0">Line ID *</label>
           <label class="flex items-center text-sm text-gray-500 cursor-pointer">
-            <input type="checkbox" id="noLineCheckbox" class="mr-1.5 w-4 h-4 text-brand-sage rounded border-gray-300 focus:ring-brand-sage" onchange="toggleLineId()">
+            <input type="checkbox" id="noLineCheckbox" class="mr-1.5 w-4 h-4 text-brand-green rounded border-gray-300 focus:ring-brand-green" onchange="toggleLineId()">
             目前無 LINE
           </label>
         </div>
@@ -89,40 +100,40 @@
         </select>
       </div>
 
-      <div id="weightLossSection" class="hidden-section bg-brand-oatmeal bg-opacity-20 p-5 rounded-xl border border-brand-oatmeal border-opacity-50 space-y-4">
+      <div id="weightLossSection" class="hidden-section bg-brand-gold bg-opacity-15 p-5 rounded-xl border border-brand-gold border-opacity-40 space-y-4">
         <div>
-          <label class="form-label text-brand-milktea">曾嘗試過的減重方式？</label>
+          <label class="form-label text-brand-green">曾嘗試過的減重方式？</label>
           <textarea name="prevMethods" rows="3" class="form-input" placeholder="例如: 168、生酮等... (可換行輸入)"></textarea>
         </div>
         <div>
-          <label class="form-label text-brand-milktea">預計減重目標 (kg)？</label>
+          <label class="form-label text-brand-green">預計減重目標 (kg)？</label>
           <input type="number" name="targetWeight" class="form-input" placeholder="例如: 5">
         </div>
       </div>
 
-      <div id="otherIssueSection" class="hidden-section bg-brand-oatmeal bg-opacity-20 p-5 rounded-xl border border-brand-oatmeal border-opacity-50 space-y-4">
+      <div id="otherIssueSection" class="hidden-section bg-brand-gold bg-opacity-15 p-5 rounded-xl border border-brand-gold border-opacity-40 space-y-4">
         <div>
-          <label class="form-label text-brand-milktea">請簡述您目前的關心現況和困擾？</label>
+          <label class="form-label text-brand-green">請簡述您目前的關心現況和困擾？</label>
           <textarea name="otherIssueDesc1" rows="3" class="form-input" placeholder="請描述您的情況... (可換行輸入)"></textarea>
         </div>
         <div>
-          <label class="form-label text-brand-milktea">請問您希望改善的方向？</label>
+          <label class="form-label text-brand-green">請問您希望改善的方向？</label>
           <textarea name="otherIssueDesc2" rows="3" class="form-input" placeholder="例如想達成的目標... (可換行輸入)"></textarea>
         </div>
       </div>
 
-      <hr class="border-gray-200">
+      <hr class="border-brand-border">
 
       <div>
-        <label class="form-label text-brand-sage font-bold">預約諮詢日期 (未來半年) *</label>
+        <label class="form-label text-brand-green font-bold">預約諮詢日期 (未來半年) *</label>
         <input type="date" id="bookingDate" name="bookingDate" required class="form-input" onchange="fetchAvailableSlots(); saveFormData();">
-        <p class="text-xs text-brand-milktea font-medium mt-1">※ 診所週日公休。溫馨提醒：每次諮詢時間約 40-60 分鐘。</p>
+        <p class="text-xs text-brand-green font-medium mt-1 opacity-80">※ 診所週日公休。溫馨提醒：每次諮詢時間約 40-60 分鐘。</p>
       </div>
 
       <div>
         <label class="form-label flex justify-between items-end">
           <span>選擇開始時段 *</span>
-          <span id="loadingText" class="text-xs text-brand-sage hidden animate-pulse">即時查詢資料庫中...</span>
+          <span id="loadingText" class="text-xs text-brand-green hidden animate-pulse font-medium">即時查詢資料庫中...</span>
         </label>
         <input type="hidden" name="bookingSlot" id="bookingSlot" required>
         <div id="slotContainer" class="grid grid-cols-2 gap-3 mt-2">
@@ -151,8 +162,8 @@
         </select>
       </div>
 
-      <div class="bg-brand-sage bg-opacity-10 p-5 rounded-xl border border-brand-sage border-opacity-30 mt-6">
-        <label class="form-label text-brand-sage font-bold mb-2">照片上傳區 (非必填)</label>
+      <div class="bg-brand-green bg-opacity-5 p-5 rounded-xl border border-brand-green border-opacity-20 mt-6">
+        <label class="form-label text-brand-green font-bold mb-2">照片上傳區 (非必填)</label>
         <p class="text-sm text-gray-600 mb-4 leading-relaxed">若有相關諮詢需要的圖片（如：近照、體檢報告等），也歡迎提供做參考，可以讓諮詢更完備。照片絕對保密，僅供內部建檔使用。</p>
         
         <label for="photoInput" class="upload-btn">＋ 選擇照片 (可多選)</label>
@@ -162,7 +173,7 @@
       </div>
 
       <div class="pt-6 pb-12">
-        <button type="submit" id="submitBtn" class="w-full bg-brand-sage text-white font-bold text-lg py-4 rounded-xl shadow-lg hover:bg-opacity-90 transition transform active:scale-95">
+        <button type="submit" id="submitBtn" class="w-full bg-brand-green text-brand-gold font-bold text-lg py-4 rounded-xl shadow-lg hover:bg-opacity-90 transition transform active:scale-95 tracking-wide">
           確認送出預約
         </button>
         <div id="sysMsg" class="text-center mt-4 hidden text-sm font-bold p-3 rounded-lg"></div>
@@ -431,7 +442,7 @@
       .then(res => {
         msgBox.classList.remove('hidden');
         if(res.status === 'success') {
-          msgBox.className = 'text-center mt-4 text-sm font-bold p-3 rounded-lg bg-green-50 text-brand-sage border border-brand-sage';
+          msgBox.className = 'text-center mt-4 text-sm font-bold p-3 rounded-lg bg-green-50 text-brand-green border border-brand-green';
           msgBox.innerText = res.message;
           document.getElementById('nuhealForm').reset();
           document.getElementById('slotContainer').innerHTML = '<div class="slot-btn booked col-span-2">請先於上方選擇日期</div>';

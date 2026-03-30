@@ -3,137 +3,222 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <title>NuHeal 佳凱樂 - 首次諮詢預約</title>
+  <title>NuHeal 佳凱樂 - 首次諮詢預約暨初診問卷</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
-      theme: { 
-        extend: { 
-          colors: { 
-            brand: { 
-              green: '#556B52',   /* 提取自 Logo 的深綠色 */
-              gold: '#D2C39B',    /* 提取自 Logo 的大地金色 */
-              light: '#FBFAF7',   /* 配合品牌的淺米底色 */
-              border: '#E8E4DB'   /* 柔和的邊框色 */
-            } 
-          } 
-        } 
-      }
+      theme: { extend: { colors: { brand: { beige: '#E4D198', oatmeal: '#DED4C1', milktea: '#C4B1A0', sage: '#8A9A7B', dark: '#4A5D4E' } } } }
     }
   </script>
   <style>
-    body { background-color: #556B52; font-family: 'Noto Sans TC', sans-serif; color: #333333; }
-    .mobile-container { max-width: 448px; margin: 0 auto; background: #FBFAF7; min-height: 100vh; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-    .form-input { width: 100%; padding: 0.875rem 1rem; border: 1.5px solid #E8E4DB; border-radius: 0.75rem; outline: none; transition: all 0.2s; font-size: 16px; background-color: #FFFFFF; -webkit-appearance: none; }
-    .form-input:focus { border-color: #556B52; box-shadow: 0 0 0 3px rgba(85, 107, 82, 0.2); }
-    textarea.form-input { resize: vertical; min-height: 80px; } 
-    .form-label { display: block; margin-bottom: 0.4rem; font-weight: 600; color: #4A5648; font-size: 0.95rem; }
+    body { background-color: #F8F9F7; font-family: 'Noto Sans TC', sans-serif; color: #333333; }
+    .mobile-container { max-width: 500px; margin: 0 auto; background: white; min-height: 100vh; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+    .section-title { font-size: 1.1rem; font-weight: 700; color: #4A5D4E; border-bottom: 2px solid #8A9A7B; padding-bottom: 0.5rem; margin-top: 2rem; margin-bottom: 1rem; }
+    .form-input, .form-select, .form-textarea { width: 100%; padding: 0.875rem 1rem; border: 1.5px solid #DED4C1; border-radius: 0.75rem; outline: none; transition: all 0.2s; font-size: 16px; background-color: #FAFAF8; -webkit-appearance: none; }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: #8A9A7B; background-color: #fff; box-shadow: 0 0 0 3px rgba(138, 154, 123, 0.2); }
+    .form-textarea { resize: vertical; min-height: 80px; } 
+    .form-label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #555; font-size: 0.95rem; line-height: 1.4; }
     
-    .slot-btn { width: 100%; padding: 0.875rem 0.5rem; border: 1.5px solid #E8E4DB; border-radius: 0.75rem; text-align: center; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; color: #4A5648; background-color: white; }
-    .slot-btn.active { border-color: #556B52; background-color: #556B52; color: #D2C39B; box-shadow: 0 4px 6px rgba(85, 107, 82, 0.3); }
+    /* Checkbox & Radio Styles */
+    .chk-group { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.5rem; }
+    .chk-item { display: flex; align-items: flex-start; }
+    .chk-item input[type="checkbox"], .chk-item input[type="radio"] { margin-top: 0.25rem; margin-right: 0.5rem; width: 1.1rem; height: 1.1rem; accent-color: #8A9A7B; }
+    .chk-item label { font-size: 0.95rem; color: #4A4A4A; cursor: pointer; flex: 1; line-height: 1.4; }
+    .other-input { border-bottom: 1px solid #DED4C1; border-top: none; border-left: none; border-right: none; background: transparent; outline: none; padding: 0.2rem 0.5rem; margin-left: 0.5rem; flex: 1; }
+    .other-input:focus { border-bottom-color: #8A9A7B; }
+
+    .slot-btn { width: 100%; padding: 0.875rem 0.5rem; border: 1.5px solid #DED4C1; border-radius: 0.75rem; text-align: center; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; color: #4A4A4A; background-color: white; }
+    .slot-btn.active { border-color: #8A9A7B; background-color: #8A9A7B; color: white; box-shadow: 0 4px 6px rgba(138, 154, 123, 0.3); }
     .slot-btn.booked { background-color: #F3F4F6; border-color: #E5E7EB; color: #9CA3AF; cursor: not-allowed; text-decoration: line-through; opacity: 0.7; pointer-events: none; }
-    .hidden-section { display: none; }
     
     input[type=file] { display: none; }
-    .upload-btn { display: inline-block; padding: 0.5rem 1.25rem; background-color: #D2C39B; color: #2C382A; font-weight: 600; border-radius: 9999px; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; }
-    .upload-btn:hover { background-color: #C1B28A; }
-    
+    .upload-btn { display: inline-block; padding: 0.6rem 1.25rem; background-color: #8A9A7B; color: white; font-weight: 600; border-radius: 9999px; cursor: pointer; transition: all 0.2s; font-size: 0.95rem; text-align: center; width: 100%; }
+    .upload-btn:hover { background-color: #768568; }
     .preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; margin-top: 15px; }
     .preview-item { position: relative; width: 100%; padding-bottom: 100%; border-radius: 0.5rem; overflow: hidden; border: 1px solid #E5E7EB; background-color: #F9FAFB; }
     .preview-item img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
-    .delete-btn { position: absolute; top: 4px; right: 4px; background-color: rgba(239, 68, 68, 0.9); color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: transform 0.1s; }
-    .delete-btn:active { transform: scale(0.9); }
+    .delete-btn { position: absolute; top: 4px; right: 4px; background-color: rgba(239, 68, 68, 0.9); color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; cursor: pointer; }
   </style>
 </head>
 <body>
 
   <div class="mobile-container p-6 sm:p-8">
-    <div class="text-center mb-8 pt-4">
-      <h1 class="text-4xl font-bold text-brand-green mb-2 tracking-widest font-serif">NuHeal</h1>
-      <p class="text-brand-green text-sm font-bold bg-brand-gold bg-opacity-40 inline-block px-4 py-1.5 rounded-full">首次諮詢資料蒐集</p>
-      <p id="draftNotice" class="text-xs text-brand-green mt-3 hidden animate-pulse font-medium">📝 已為您還原上次填寫的草稿</p>
+    <div class="text-center mb-6 pt-4 bg-brand-dark rounded-xl p-6 text-white shadow-md">
+      <h1 class="text-3xl font-bold mb-2 tracking-wider">NuHeal</h1>
+      <p class="text-brand-beige text-sm font-bold tracking-widest">初診問卷暨預約系統</p>
     </div>
+    <p id="draftNotice" class="text-xs text-brand-dark text-center mb-4 hidden animate-pulse">📝 已為您還原上次填寫的草稿</p>
 
     <form id="nuhealForm" onsubmit="submitForm(event)" oninput="saveFormData()" onchange="saveFormData()" class="space-y-6">
       
-      <div><label class="form-label">客戶姓名 *</label><input type="text" name="name" required class="form-input" placeholder="請輸入您的真實姓名"></div>
+      <h2 class="section-title">1. 基本資料</h2>
+      <div><label class="form-label">客戶姓名 *</label><input type="text" name="name" required class="form-input" placeholder="請輸入真實姓名"></div>
 
       <div class="grid grid-cols-2 gap-4">
         <div>
           <label class="form-label">性別 *</label>
-          <select name="gender" required class="form-input">
+          <select name="gender" required class="form-select">
             <option value="" disabled selected>請選擇</option>
             <option value="女">女</option><option value="男">男</option><option value="其他">其他</option>
           </select>
         </div>
         <div>
           <label class="form-label">出生日期 *</label>
-          <input type="date" name="dob" required class="form-input">
+          <input type="date" name="dob" id="dobInput" required class="form-input" onchange="calculateAge()">
         </div>
       </div>
 
-      <div><label class="form-label">方便聯絡時間</label><input type="text" name="contactTime" class="form-input" placeholder="例如: 平日晚上 19:00-21:00"></div>
-      <div><label class="form-label">手機號碼 *</label><input type="tel" name="phone" required class="form-input" placeholder="09xx-xxxxxx"></div>
-      
+      <div class="grid grid-cols-3 gap-4">
+        <div><label class="form-label">年齡</label><input type="number" name="age" id="ageInput" class="form-input bg-gray-50" readonly placeholder="歲"></div>
+        <div><label class="form-label">身高 *</label><input type="number" step="0.1" name="height" required class="form-input" placeholder="cm"></div>
+        <div><label class="form-label">目前體重 *</label><input type="number" step="0.1" name="currentWeight" required class="form-input" placeholder="kg"></div>
+      </div>
+
       <div>
         <div class="flex justify-between items-end mb-1">
           <label class="form-label mb-0">Line ID *</label>
           <label class="flex items-center text-sm text-gray-500 cursor-pointer">
-            <input type="checkbox" id="noLineCheckbox" class="mr-1.5 w-4 h-4 text-brand-green rounded border-gray-300 focus:ring-brand-green" onchange="toggleLineId()">
-            目前無 LINE
+            <input type="checkbox" id="noLineCheckbox" class="mr-1.5 w-4 h-4 text-brand-sage rounded focus:ring-brand-sage" onchange="toggleLineId()"> 目前無 LINE
           </label>
         </div>
         <input type="text" id="lineIdInput" name="lineId" required class="form-input" placeholder="以便營養師聯繫您">
       </div>
-
+      <div><label class="form-label">手機號碼 *</label><input type="tel" name="phone" required class="form-input" placeholder="09xx-xxxxxx"></div>
       <div><label class="form-label">Email信箱 *</label><input type="email" name="email" required class="form-input" placeholder="寄送諮詢連結與發票使用"></div>
+      <div><label class="form-label">方便聯絡時間</label><input type="text" name="contactTime" class="form-input" placeholder="例如: 平日晚上 19:00-21:00"></div>
+
+      <h2 class="section-title">2. 健康與生活型態</h2>
+      
+      <div>
+        <label class="form-label">您本次來訪的主要動機？（可複選） *</label>
+        <div class="chk-group">
+          <div class="chk-item"><input type="checkbox" name="motive" value="減重減脂" id="m1"><label for="m1">減重減脂</label></div>
+          <div class="chk-item"><input type="checkbox" name="motive" value="提升代謝力" id="m2"><label for="m2">提升代謝力</label></div>
+          <div class="chk-item"><input type="checkbox" name="motive" value="改善疾病" id="m3"><label for="m3">改善疾病（如：三高、尿酸、多囊）</label></div>
+          <div class="chk-item"><input type="checkbox" name="motive" value="改善體質" id="m4"><label for="m4">改善體質（如：容易疲勞、過敏、排便）</label></div>
+          <div class="chk-item"><input type="checkbox" name="motive" value="增肌/增加運動表現" id="m5"><label for="m5">增肌 / 增加運動表現</label></div>
+          <div class="chk-item"><input type="checkbox" name="motive" value="增重" id="m6"><label for="m6">增重</label></div>
+          <div class="chk-item"><input type="checkbox" name="motive" value="備孕/孕期營養" id="m7"><label for="m7">備孕 / 孕期營養</label></div>
+          <div class="chk-item">
+            <input type="checkbox" name="motive" value="其他" id="m8">
+            <label for="m8" class="flex items-center">其他：<input type="text" name="motive_other" class="other-input"></label>
+          </div>
+        </div>
+      </div>
 
       <div>
-        <label class="form-label">主要諮詢營養問題 *</label>
-        <select name="issue" id="issueSelect" required class="form-input" onchange="toggleIssueSection(); saveFormData();">
-          <option value="" disabled selected>請選擇主要項目</option>
-          <option value="減重相關">減重相關問題</option>
-          <option value="疾病營養">慢性病/疾病營養調理</option>
-          <option value="孕產期營養">備孕/孕期/產後營養</option>
-          <option value="日常保健">日常健康保健/增肌</option>
-          <option value="其他">其他</option>
-        </select>
-      </div>
-
-      <div id="weightLossSection" class="hidden-section bg-brand-gold bg-opacity-15 p-5 rounded-xl border border-brand-gold border-opacity-40 space-y-4">
-        <div>
-          <label class="form-label text-brand-green">曾嘗試過的減重方式？</label>
-          <textarea name="prevMethods" rows="3" class="form-input" placeholder="例如: 168、生酮等... (可換行輸入)"></textarea>
-        </div>
-        <div>
-          <label class="form-label text-brand-green">預計減重目標 (kg)？</label>
-          <input type="number" name="targetWeight" class="form-input" placeholder="例如: 5">
+        <label class="form-label">您目前是否有以下健康狀況？（可複選）</label>
+        <div class="chk-group">
+          <div class="chk-item"><input type="checkbox" name="healthStatus" value="高血糖/糖尿病" id="h1"><label for="h1">高血糖/糖尿病</label></div>
+          <div class="chk-item"><input type="checkbox" name="healthStatus" value="高血壓" id="h2"><label for="h2">高血壓</label></div>
+          <div class="chk-item"><input type="checkbox" name="healthStatus" value="高血脂" id="h3"><label for="h3">高血脂</label></div>
+          <div class="chk-item"><input type="checkbox" name="healthStatus" value="脂肪肝" id="h4"><label for="h4">脂肪肝</label></div>
+          <div class="chk-item"><input type="checkbox" name="healthStatus" value="胃食道逆流/腸胃不適" id="h5"><label for="h5">胃食道逆流/腸胃不適</label></div>
+          <div class="chk-item"><input type="checkbox" name="healthStatus" value="睡眠品質不佳" id="h6"><label for="h6">睡眠品質不佳</label></div>
+          <div class="chk-item"><input type="checkbox" name="healthStatus" value="容易疲勞/體力不足" id="h7"><label for="h7">容易疲勞/體力不足</label></div>
+          <div class="chk-item"><input type="checkbox" name="healthStatus" value="經期不順/經前症候群" id="h8"><label for="h8">經期不順/經前症候群</label></div>
+          <div class="chk-item"><input type="checkbox" name="healthStatus" value="無上述狀況" id="h9"><label for="h9">無上述狀況</label></div>
         </div>
       </div>
-
-      <div id="otherIssueSection" class="hidden-section bg-brand-gold bg-opacity-15 p-5 rounded-xl border border-brand-gold border-opacity-40 space-y-4">
-        <div>
-          <label class="form-label text-brand-green">請簡述您目前的關心現況和困擾？</label>
-          <textarea name="otherIssueDesc1" rows="3" class="form-input" placeholder="請描述您的情況... (可換行輸入)"></textarea>
-        </div>
-        <div>
-          <label class="form-label text-brand-green">請問您希望改善的方向？</label>
-          <textarea name="otherIssueDesc2" rows="3" class="form-input" placeholder="例如想達成的目標... (可換行輸入)"></textarea>
-        </div>
-      </div>
-
-      <hr class="border-brand-border">
 
       <div>
-        <label class="form-label text-brand-green font-bold">預約諮詢日期 (未來半年) *</label>
+        <label class="form-label">您目前的飲食型態？（可複選）</label>
+        <div class="chk-group">
+          <div class="chk-item"><input type="checkbox" name="dietType" value="經常外食" id="d1"><label for="d1">經常外食（一週超過 4 次）</label></div>
+          <div class="chk-item"><input type="checkbox" name="dietType" value="三餐不固定" id="d2"><label for="d2">三餐不固定</label></div>
+          <div class="chk-item"><input type="checkbox" name="dietType" value="喜歡甜食/手搖飲/零食" id="d3"><label for="d3">喜歡甜食/手搖飲/零食</label></div>
+          <div class="chk-item"><input type="checkbox" name="dietType" value="宵夜習慣" id="d4"><label for="d4">宵夜習慣</label></div>
+          <div class="chk-item"><input type="checkbox" name="dietType" value="飲酒習慣" id="d5"><label for="d5">飲酒習慣（每週 2 次以上）</label></div>
+          <div class="chk-item"><input type="checkbox" name="dietType" value="挑食或有食物禁忌" id="d6"><label for="d6">挑食或有食物禁忌</label></div>
+        </div>
+      </div>
+
+      <div>
+        <label class="form-label">您的運動頻率？ *</label>
+        <div class="chk-group">
+          <div class="chk-item"><input type="radio" name="exercise" value="幾乎不運動" id="e1" required><label for="e1">幾乎不運動</label></div>
+          <div class="chk-item"><input type="radio" name="exercise" value="每週 1-2 次" id="e2"><label for="e2">每週 1-2 次</label></div>
+          <div class="chk-item"><input type="radio" name="exercise" value="每週 3 次以上" id="e3"><label for="e3">每週 3 次以上</label></div>
+          <div class="chk-item"><input type="radio" name="exercise" value="每天運動" id="e4"><label for="e4">每天運動</label></div>
+        </div>
+      </div>
+
+      <div>
+        <label class="form-label">您的家族病史中是否有以下項目？（可複選）</label>
+        <div class="chk-group">
+          <div class="chk-item"><input type="checkbox" name="familyHistory" value="糖尿病" id="f1"><label for="f1">糖尿病</label></div>
+          <div class="chk-item"><input type="checkbox" name="familyHistory" value="高血壓" id="f2"><label for="f2">高血壓</label></div>
+          <div class="chk-item"><input type="checkbox" name="familyHistory" value="心血管疾病" id="f3"><label for="f3">心血管疾病</label></div>
+          <div class="chk-item"><input type="checkbox" name="familyHistory" value="肥胖症" id="f4"><label for="f4">肥胖症</label></div>
+          <div class="chk-item">
+            <input type="checkbox" name="familyHistory" value="其他" id="f5">
+            <label for="f5" class="flex items-center">其他：<input type="text" name="familyHistory_other" class="other-input"></label>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="section-title">3. 減重與目標期望</h2>
+
+      <div>
+        <label class="form-label">過去是否曾嘗試過減重？（可複選）</label>
+        <div class="chk-group">
+          <div class="chk-item"><input type="checkbox" name="pastAttempts" value="未曾嘗試過" id="p1"><label for="p1">未曾嘗試過</label></div>
+          <div class="chk-item"><input type="checkbox" name="pastAttempts" value="斷食法" id="p2"><label for="p2">斷食法（如：168、204）</label></div>
+          <div class="chk-item"><input type="checkbox" name="pastAttempts" value="極低醣/生酮飲食" id="p3"><label for="p3">極低醣/生酮飲食</label></div>
+          <div class="chk-item"><input type="checkbox" name="pastAttempts" value="代餐/減重藥物/保健品" id="p4"><label for="p4">代餐/減重藥物/保健品</label></div>
+          <div class="chk-item"><input type="checkbox" name="pastAttempts" value="健身/大量運動" id="p5"><label for="p5">健身/大量運動</label></div>
+          <div class="chk-item"><input type="checkbox" name="pastAttempts" value="節食/少吃" id="p6"><label for="p6">節食/少吃</label></div>
+        </div>
+      </div>
+
+      <div>
+        <label class="form-label">以往經驗中，最困擾您的問題是？（找出痛點，可複選）</label>
+        <div class="chk-group">
+          <div class="chk-item"><input type="checkbox" name="painPoints" value="容易餓，意志力不夠" id="pp1"><label for="pp1">容易餓，意志力不夠</label></div>
+          <div class="chk-item"><input type="checkbox" name="painPoints" value="體重卡關太久" id="pp2"><label for="pp2">體重卡關（停滯期）太久</label></div>
+          <div class="chk-item"><input type="checkbox" name="painPoints" value="恢復正常飲食就迅速復胖" id="pp3"><label for="pp3">恢復正常飲食就迅速復胖</label></div>
+          <div class="chk-item"><input type="checkbox" name="painPoints" value="工作繁忙沒時間" id="pp4"><label for="pp4">工作繁忙，沒時間準備餐點或運動</label></div>
+          <div class="chk-item"><input type="checkbox" name="painPoints" value="外食選擇少" id="pp5"><label for="pp5">外食選擇太少，不知道怎麼點餐</label></div>
+        </div>
+      </div>
+
+      <div>
+        <label class="form-label">您認為目前最需要哪方面的專業協助？（可複選）</label>
+        <div class="chk-group">
+          <div class="chk-item"><input type="checkbox" name="helpNeeded" value="一對一專業飲食監控與每日提醒" id="hn1"><label for="hn1">一對一專業飲食監控與每日提醒</label></div>
+          <div class="chk-item"><input type="checkbox" name="helpNeeded" value="針對數據的客製化飲食菜單" id="hn2"><label for="hn2">針對我現有數據的客製化飲食菜單</label></div>
+          <div class="chk-item"><input type="checkbox" name="helpNeeded" value="專業的外食挑選技巧指導" id="hn3"><label for="hn3">專業的外食挑選技巧指導</label></div>
+          <div class="chk-item"><input type="checkbox" name="helpNeeded" value="針對身體狀況的營養補充品建議" id="hn4"><label for="hn4">針對身體狀況的營養補充品建議</label></div>
+          <div class="chk-item"><input type="checkbox" name="helpNeeded" value="定期的身體組成分析追蹤" id="hn5"><label for="hn5">定期的身體組成分析（體脂、肌肉量）追蹤</label></div>
+        </div>
+      </div>
+
+      <div>
+        <label class="form-label">您希望在未來的 3 個月內，看到什麼樣的改變？（可複選）</label>
+        <div class="chk-group">
+          <div class="chk-item">
+            <input type="checkbox" name="futureGoals" value="減輕體重" id="fg1">
+            <label for="fg1" class="flex items-center">目標減重：<input type="number" step="0.1" name="targetWeight" class="other-input w-16 text-center" placeholder="kg"> kg</label>
+          </div>
+          <div class="chk-item"><input type="checkbox" name="futureGoals" value="健康數值改善" id="fg2"><label for="fg2">健康數值改善（如：血糖、血壓）</label></div>
+          <div class="chk-item"><input type="checkbox" name="futureGoals" value="體態明顯變化" id="fg3"><label for="fg3">體態明顯變化（如：衣服尺寸變小、變鬆）</label></div>
+          <div class="chk-item"><input type="checkbox" name="futureGoals" value="體力改善" id="fg4"><label for="fg4">體力改善，生活更有精神</label></div>
+          <div class="chk-item"><input type="checkbox" name="futureGoals" value="建立長久飲食習慣" id="fg5"><label for="fg5">建立一套可以長久執行且不痛苦的飲食習慣</label></div>
+        </div>
+      </div>
+
+      <h2 class="section-title">4. 諮詢預約與照片</h2>
+
+      <div>
+        <label class="form-label text-brand-dark font-bold">預約諮詢日期 (未來半年) *</label>
         <input type="date" id="bookingDate" name="bookingDate" required class="form-input" onchange="fetchAvailableSlots(); saveFormData();">
-        <p class="text-xs text-brand-green font-medium mt-1 opacity-80">※ 診所週日公休。溫馨提醒：每次諮詢時間約 40-60 分鐘。</p>
+        <p class="text-xs text-brand-sage font-medium mt-1">※ 診所週日公休。溫馨提醒：每次諮詢時間約 40-60 分鐘。</p>
       </div>
 
       <div>
         <label class="form-label flex justify-between items-end">
           <span>選擇開始時段 *</span>
-          <span id="loadingText" class="text-xs text-brand-green hidden animate-pulse font-medium">即時查詢資料庫中...</span>
+          <span id="loadingText" class="text-xs text-brand-sage hidden animate-pulse">即時查詢資料庫中...</span>
         </label>
         <input type="hidden" name="bookingSlot" id="bookingSlot" required>
         <div id="slotContainer" class="grid grid-cols-2 gap-3 mt-2">
@@ -143,16 +228,16 @@
 
       <div>
         <label class="form-label">期望諮詢方式 *</label>
-        <select name="consultMethod" required class="form-input">
-          <option value="" disabled selected>請選擇 (單次諮詢約 40-60 分鐘)</option>
+        <select name="consultMethod" required class="form-select">
+          <option value="" disabled selected>請選擇</option>
           <option value="實體現場諮詢">實體現場諮詢</option>
           <option value="線上視訊諮詢">線上視訊諮詢</option>
         </select>
       </div>
 
       <div>
-        <label class="form-label">請問是從哪裡介紹/得知？ *</label>
-        <select name="source" required class="form-input">
+        <label class="form-label">請問是從哪裡介紹/得知我們？ *</label>
+        <select name="source" required class="form-select">
           <option value="" disabled selected>請選擇</option>
           <option value="親友介紹">親友介紹</option>
           <option value="Facebook / IG">Facebook / IG</option>
@@ -162,19 +247,17 @@
         </select>
       </div>
 
-      <div class="bg-brand-green bg-opacity-5 p-5 rounded-xl border border-brand-green border-opacity-20 mt-6">
-        <label class="form-label text-brand-green font-bold mb-2">照片上傳區 (非必填)</label>
-        <p class="text-sm text-gray-600 mb-4 leading-relaxed">若有相關諮詢需要的圖片（如：近照、體檢報告等），也歡迎提供做參考，可以讓諮詢更完備。照片絕對保密，僅供內部建檔使用。</p>
-        
+      <div class="bg-brand-sage bg-opacity-10 p-5 rounded-xl border border-brand-sage border-opacity-30 mt-6">
+        <label class="form-label text-brand-dark font-bold mb-2">上傳相關照片/檔案 (非必填)</label>
+        <p class="text-sm text-gray-600 mb-4 leading-relaxed">可提供近照或體檢報告等。照片絕對保密，僅供內部建檔使用。</p>
         <label for="photoInput" class="upload-btn">＋ 選擇照片 (可多選)</label>
         <input type="file" id="photoInput" accept="image/*" multiple onchange="handlePhotoSelect(event)">
-        
         <div id="photoPreviewGrid" class="preview-grid"></div>
       </div>
 
       <div class="pt-6 pb-12">
-        <button type="submit" id="submitBtn" class="w-full bg-brand-green text-brand-gold font-bold text-lg py-4 rounded-xl shadow-lg hover:bg-opacity-90 transition transform active:scale-95 tracking-wide">
-          確認送出預約
+        <button type="submit" id="submitBtn" class="w-full bg-brand-dark text-white font-bold text-lg py-4 rounded-xl shadow-lg hover:bg-opacity-90 transition transform active:scale-95">
+          確認送出預約與問卷
         </button>
         <div id="sysMsg" class="text-center mt-4 hidden text-sm font-bold p-3 rounded-lg"></div>
       </div>
@@ -183,11 +266,13 @@
   </div>
 
   <script>
-    // 【重要】請將這裡替換為您 GAS 部署後產生的 Web App URL
-    const GAS_API_URL = 'https://script.google.com/macros/s/AKfycby_nSWoMfBLh2XR6ue7k6_E1OQU9u77b8x7dF4OYC_kPK1sqH-UTw995MhsCYPkFRk/exec';
-    
+    // ==========================================
+    // 請將下方的網址替換為您的 Google Apps Script Web App URL
+    // ==========================================
+    const API_URL = 'https://script.google.com/macros/s/AKfycby_nSWoMfBLh2XR6ue7k6_E1OQU9u77b8x7dF4OYC_kPK1sqH-UTw995MhsCYPkFRk/exec'; 
+
     const ALL_SLOTS = ['09:30', '11:30', '14:00', '15:30', '17:00'];
-    const DRAFT_KEY = 'nuheal_form_draft';
+    const DRAFT_KEY = 'nuheal_form_draft_v2';
     let uploadedPhotos = []; 
 
     window.onload = function() {
@@ -200,8 +285,7 @@
       dateInput.max = sixMonthsLater.toISOString().split('T')[0];
 
       const dobInput = document.getElementsByName('dob')[0];
-      const dobMax = new Date();
-      dobInput.max = dobMax.toISOString().split('T')[0];
+      dobInput.max = new Date().toISOString().split('T')[0];
 
       loadFormData();
     };
@@ -210,20 +294,35 @@
       const checkbox = document.getElementById('noLineCheckbox');
       const input = document.getElementById('lineIdInput');
       if (checkbox.checked) {
-        input.value = '無';
-        input.readOnly = true;
-        input.classList.add('bg-gray-100', 'text-gray-400');
+        input.value = '無'; input.readOnly = true; input.classList.add('bg-gray-100', 'text-gray-400');
       } else {
-        input.value = '';
-        input.readOnly = false;
-        input.classList.remove('bg-gray-100', 'text-gray-400');
+        input.value = ''; input.readOnly = false; input.classList.remove('bg-gray-100', 'text-gray-400');
       }
       saveFormData();
     }
 
+    function calculateAge() {
+      const dobVal = document.getElementById('dobInput').value;
+      if(dobVal) {
+        const diff = Date.now() - new Date(dobVal).getTime();
+        const age = new Date(diff).getUTCFullYear() - 1970;
+        document.getElementById('ageInput').value = age > 0 ? age : 0;
+      }
+    }
+
     function saveFormData() {
-      const formData = new FormData(document.getElementById('nuhealForm'));
-      const dataObj = Object.fromEntries(formData.entries());
+      const form = document.getElementById('nuhealForm');
+      const formData = new FormData(form);
+      const dataObj = {};
+      
+      for (let [key, value] of formData.entries()) {
+        if (!dataObj[key]) {
+          dataObj[key] = value;
+        } else {
+          if (!Array.isArray(dataObj[key])) dataObj[key] = [dataObj[key]];
+          dataObj[key].push(value);
+        }
+      }
       localStorage.setItem(DRAFT_KEY, JSON.stringify(dataObj));
     }
 
@@ -233,35 +332,28 @@
         try {
           const dataObj = JSON.parse(draft);
           for (const key in dataObj) {
-            const input = document.querySelector(`[name="${key}"]`);
-            if (input && input.type !== 'hidden' && input.type !== 'file') {
-              input.value = dataObj[key];
+            const inputs = document.querySelectorAll(`[name="${key}"]`);
+            if (inputs.length === 0) continue;
+            
+            if (inputs[0].type === 'checkbox' || inputs[0].type === 'radio') {
+              const values = Array.isArray(dataObj[key]) ? dataObj[key] : [dataObj[key]];
+              inputs.forEach(input => {
+                if (values.includes(input.value)) input.checked = true;
+              });
+            } else if (inputs[0].type !== 'file' && inputs[0].type !== 'hidden') {
+              inputs[0].value = dataObj[key];
             }
           }
           if (dataObj.lineId === '無') document.getElementById('noLineCheckbox').checked = true;
           toggleLineId();
-          toggleIssueSection();
+          calculateAge();
           if (dataObj.bookingDate) fetchAvailableSlots(dataObj.bookingSlot); 
           document.getElementById('draftNotice').classList.remove('hidden');
         } catch (e) {}
       }
     }
 
-    function toggleIssueSection() {
-      const issue = document.getElementById('issueSelect').value;
-      const wlSection = document.getElementById('weightLossSection');
-      const otherSection = document.getElementById('otherIssueSection');
-
-      if (issue === '減重相關') {
-        wlSection.classList.remove('hidden-section');
-        otherSection.classList.add('hidden-section');
-      } else if (issue) {
-        wlSection.classList.add('hidden-section');
-        otherSection.classList.remove('hidden-section');
-      }
-    }
-
-    // 替換 google.script.run 為 Fetch API (GET 請求)
+    // 🔴 改寫為 Fetch 呼叫後端 API 取得時段
     function fetchAvailableSlots(preselectSlot = null) {
       const dateVal = document.getElementById('bookingDate').value;
       const container = document.getElementById('slotContainer');
@@ -282,7 +374,7 @@
       loading.classList.remove('hidden');
       container.innerHTML = '<div class="col-span-2 text-center text-sm text-gray-400 py-6">載入時段中...</div>';
 
-      fetch(`${GAS_API_URL}?action=getSlots&date=${dateVal}`)
+      fetch(`${API_URL}?action=getBookedSlots&date=${dateVal}`)
         .then(response => response.json())
         .then(bookedSlots => {
           loading.classList.add('hidden');
@@ -290,23 +382,15 @@
           ALL_SLOTS.forEach(slot => {
             const isBooked = bookedSlots.includes(slot);
             const btn = document.createElement('div');
-            
             if (isBooked) {
-              btn.className = 'slot-btn booked';
-              btn.innerText = `${slot} (已約滿)`;
+              btn.className = 'slot-btn booked'; btn.innerText = `${slot} (已約滿)`;
               if (slot === preselectSlot) slotInput.value = '';
             } else {
-              btn.className = 'slot-btn';
-              btn.innerText = slot;
-              if (slot === preselectSlot) {
-                btn.classList.add('active');
-                slotInput.value = slot;
-              }
+              btn.className = 'slot-btn'; btn.innerText = slot;
+              if (slot === preselectSlot) { btn.classList.add('active'); slotInput.value = slot; }
               btn.onclick = function() {
                 document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                slotInput.value = slot;
-                saveFormData(); 
+                btn.classList.add('active'); slotInput.value = slot; saveFormData(); 
               };
             }
             container.appendChild(btn);
@@ -315,27 +399,22 @@
         .catch(err => {
           loading.classList.add('hidden');
           container.innerHTML = '<div class="col-span-2 text-center text-red-500 py-4">連線異常。</div>';
-          console.error(err);
         });
     }
 
     async function handlePhotoSelect(event) {
       const files = event.target.files;
       if (!files || files.length === 0) return;
-
       const btn = document.getElementById('submitBtn');
-      btn.innerText = '照片處理中...';
-      btn.disabled = true;
+      btn.innerText = '照片處理中...'; btn.disabled = true;
 
       const compressPromises = Array.from(files).map(file => compressImage(file));
       const processedPhotos = await Promise.all(compressPromises);
-      
       uploadedPhotos = uploadedPhotos.concat(processedPhotos);
       renderPreviewGrid();
       
       event.target.value = ''; 
-      btn.innerText = '確認送出預約';
-      btn.disabled = false;
+      btn.innerText = '確認送出預約與問卷'; btn.disabled = false;
     }
 
     function compressImage(file) {
@@ -345,28 +424,15 @@
           const img = new Image();
           img.onload = function() {
             const canvas = document.createElement('canvas');
-            let width = img.width;
-            let height = img.height;
+            let width = img.width, height = img.height;
             const MAX_SIZE = 800; 
-            
-            if (width > height) {
-              if (width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; }
-            } else {
-              if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; }
-            }
-            canvas.width = width;
-            canvas.height = height;
-            
+            if (width > height) { if (width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; } } 
+            else { if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; } }
+            canvas.width = width; canvas.height = height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
-            
             const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-            resolve({
-              dataUrl: dataUrl,
-              data: dataUrl.split(',')[1],
-              mimeType: 'image/jpeg',
-              extension: 'jpg'
-            });
+            resolve({ dataUrl: dataUrl, data: dataUrl.split(',')[1], mimeType: 'image/jpeg', extension: 'jpg' });
           };
           img.src = e.target.result;
         };
@@ -377,100 +443,74 @@
     function renderPreviewGrid() {
       const grid = document.getElementById('photoPreviewGrid');
       grid.innerHTML = ''; 
-      
       uploadedPhotos.forEach((photo, index) => {
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'preview-item';
-        
-        const img = document.createElement('img');
-        img.src = photo.dataUrl;
-        
-        const deleteBtn = document.createElement('div');
-        deleteBtn.className = 'delete-btn';
-        deleteBtn.innerHTML = '✕';
-        deleteBtn.onclick = () => removePhoto(index);
-        
-        itemDiv.appendChild(img);
-        itemDiv.appendChild(deleteBtn);
-        grid.appendChild(itemDiv);
+        const itemDiv = document.createElement('div'); itemDiv.className = 'preview-item';
+        const img = document.createElement('img'); img.src = photo.dataUrl;
+        const deleteBtn = document.createElement('div'); deleteBtn.className = 'delete-btn'; deleteBtn.innerHTML = '✕';
+        deleteBtn.onclick = () => { uploadedPhotos.splice(index, 1); renderPreviewGrid(); };
+        itemDiv.appendChild(img); itemDiv.appendChild(deleteBtn); grid.appendChild(itemDiv);
       });
     }
 
-    function removePhoto(index) {
-      uploadedPhotos.splice(index, 1);
-      renderPreviewGrid();
-    }
-
+    // 🔴 改寫為 Fetch 呼叫後端 API 傳送表單資料
     function submitForm(event) {
       event.preventDefault();
-      
       const slotInput = document.getElementById('bookingSlot').value;
-      if (!slotInput) {
-        alert('請點選一個可預約的開始時段！'); return;
-      }
+      if (!slotInput) { alert('請點選一個可預約的開始時段！'); return; }
 
       const btn = document.getElementById('submitBtn');
       const msgBox = document.getElementById('sysMsg');
+      btn.disabled = true; btn.innerText = '資料上傳中 (請稍候)...'; btn.classList.add('opacity-50', 'cursor-not-allowed');
+
+      const form = document.getElementById('nuhealForm');
+      const formData = new FormData(form);
+      const dataObj = {};
       
-      btn.disabled = true;
-      btn.innerText = '資料上傳中 (含照片可能需10-20秒)...';
-      btn.classList.add('opacity-50', 'cursor-not-allowed');
+      for (let [key, value] of formData.entries()) {
+        if (!dataObj[key]) {
+          dataObj[key] = value;
+        } else {
+          dataObj[key] = `${dataObj[key]}, ${value}`;
+        }
+      }
 
-      const formData = new FormData(document.getElementById('nuhealForm'));
-      const dataObj = Object.fromEntries(formData.entries());
+      dataObj.photos = uploadedPhotos.map(p => ({ data: p.data, mimeType: p.mimeType, extension: p.extension }));
 
-      dataObj.photos = uploadedPhotos.map(p => ({
-        data: p.data,
-        mimeType: p.mimeType,
-        extension: p.extension
-      }));
+      const payload = {
+        action: 'processForm',
+        formObject: dataObj
+      };
 
-      sendToBackendAPI(dataObj, btn, msgBox);
-    }
-
-    // 替換 google.script.run 為 Fetch API (POST 請求)
-    function sendToBackendAPI(dataObj, btn, msgBox) {
-      fetch(GAS_API_URL, {
+      // 使用 text/plain 可以避免 GAS 嚴格的 CORS 阻擋 (Preflight Options 錯誤)
+      fetch(API_URL, {
         method: 'POST',
-        // GAS 跨域處理有時較為嚴格，此處送 text/plain 包裝 JSON 字串是最穩定的做法
-        headers: {
-          'Content-Type': 'text/plain;charset=utf-8', 
-        },
-        body: JSON.stringify(dataObj)
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
       })
       .then(response => response.json())
       .then(res => {
         msgBox.classList.remove('hidden');
         if(res.status === 'success') {
-          msgBox.className = 'text-center mt-4 text-sm font-bold p-3 rounded-lg bg-green-50 text-brand-green border border-brand-green';
+          msgBox.className = 'text-center mt-4 text-sm font-bold p-3 rounded-lg bg-green-50 text-brand-dark border border-brand-dark';
           msgBox.innerText = res.message;
-          document.getElementById('nuhealForm').reset();
+          form.reset();
           document.getElementById('slotContainer').innerHTML = '<div class="slot-btn booked col-span-2">請先於上方選擇日期</div>';
-          document.getElementById('weightLossSection').classList.add('hidden-section');
-          document.getElementById('otherIssueSection').classList.add('hidden-section');
           document.getElementById('draftNotice').classList.add('hidden');
           document.getElementById('lineIdInput').classList.remove('bg-gray-100', 'text-gray-400');
           document.getElementById('lineIdInput').readOnly = false;
-          
-          uploadedPhotos = [];
-          renderPreviewGrid();
+          uploadedPhotos = []; renderPreviewGrid();
           localStorage.removeItem(DRAFT_KEY);
         } else {
           msgBox.className = 'text-center mt-4 text-sm font-bold p-3 rounded-lg bg-red-50 text-red-500 border border-red-200';
-          msgBox.innerText = res.message; 
-          fetchAvailableSlots();
+          msgBox.innerText = res.message; fetchAvailableSlots();
         }
+        btn.disabled = false; btn.innerText = '確認送出預約與問卷'; btn.classList.remove('opacity-50', 'cursor-not-allowed');
       })
       .catch(err => {
         msgBox.classList.remove('hidden');
         msgBox.className = 'text-center mt-4 text-sm font-bold p-3 rounded-lg bg-red-50 text-red-500 border border-red-200';
-        msgBox.innerText = "系統連線異常，請稍後再試。";
-        console.error(err);
-      })
-      .finally(() => {
-        btn.disabled = false;
-        btn.innerText = '確認送出預約';
-        btn.classList.remove('opacity-50', 'cursor-not-allowed');
+        msgBox.innerText = '網路連線異常，請稍後再試。';
+        btn.disabled = false; btn.innerText = '確認送出預約與問卷'; btn.classList.remove('opacity-50', 'cursor-not-allowed');
       });
     }
   </script>

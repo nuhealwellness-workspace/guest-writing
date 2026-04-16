@@ -353,7 +353,6 @@
       }
     }
 
-    // ✅ 完整復原並修復的 fetchAvailableSlots 函式
     function fetchAvailableSlots(preselectSlot = null) {
       const dateVal = document.getElementById('bookingDate').value;
       const container = document.getElementById('slotContainer');
@@ -390,8 +389,15 @@
         .then(bookedSlots => {
           loading.classList.add('hidden');
           container.innerHTML = '';
+          
+          // 【前端強化防呆】無論後端傳回 "9:30" 還是 "09:30"，前端都統一補零再比對
+          const normalizedBookedSlots = bookedSlots.map(s => {
+            let str = String(s).trim();
+            return (str.length === 4 && str.charAt(1) === ':') ? '0' + str : str;
+          });
+
           ALL_SLOTS.forEach(slot => {
-            const isBooked = bookedSlots.includes(slot);
+            const isBooked = normalizedBookedSlots.includes(slot);
             const btn = document.createElement('div');
             if (isBooked) {
               btn.className = 'slot-btn booked'; btn.innerText = `${slot} (已約滿)`;

@@ -353,29 +353,24 @@
       }
     }
 
-    // 🔴 改寫為 Fetch 呼叫後端 API 取得時段
-    function fetchAvailableSlots(preselectSlot = null) {
-      const dateVal = document.getElementById('bookingDate').value;
-      const container = document.getElementById('slotContainer');
-      const slotInput = document.getElementById('bookingSlot');
-      const loading = document.getElementById('loadingText');
-      
-      if (!preselectSlot) slotInput.value = ''; 
-      if (!dateVal) return;
 
-      const selectedDate = new Date(dateVal);
-      if (selectedDate.getDay() === 0) {
-        alert('週日為休診日，無法提供預約，請選擇其他日期。');
-        document.getElementById('bookingDate').value = '';
-        container.innerHTML = '<div class="slot-btn booked col-span-2">請重新選擇日期</div>';
-        return;
-      }
-
-      loading.classList.remove('hidden');
-      container.innerHTML = '<div class="col-span-2 text-center text-sm text-gray-400 py-6">載入時段中...</div>';
-
+    // 替換這段 fetch 呼叫
       fetch(`${API_URL}?action=getBookedSlots&date=${dateVal}`)
-        .then(response => response.json())
+        .then(async response => {
+          // 1. 先檢查 HTTP 狀態碼是否正常
+          if (!response.ok) {
+            throw new Error(`HTTP 狀態碼錯誤: ${response.status}`);
+          }
+          // 2. 將回傳資料先轉成純文字，避免直接轉 JSON 報錯
+          const text = await response.text();
+          try {
+            // 3. 嘗試解析為 JSON
+            return JSON.parse(text);
+          } catch (e) {
+            console.error("❌ 伺服器回傳的不是 JSON 格式，回傳內容為:", text);
+            throw new Error("無法解析伺服器回傳的資料 (可能 GAS 權限設定錯誤)");
+          }
+        })
         .then(bookedSlots => {
           loading.classList.add('hidden');
           container.innerHTML = '';
@@ -398,9 +393,9 @@
         })
         .catch(err => {
           loading.classList.add('hidden');
-          container.innerHTML = '<div class="col-span-2 text-center text-red-500 py-4">連線異常。</div>';
+          console.error("❌ Fetch 發生錯誤:", err); // 把真正的錯誤印在 Console
+          container.innerHTML = `<div class="col-span-2 text-center text-red-500 py-4">連線異常: ${err.message}</div>`;
         });
-    }
 
     async function handlePhotoSelect(event) {
       const files = event.target.files;
